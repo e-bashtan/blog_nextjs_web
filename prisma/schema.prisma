@@ -1,0 +1,28 @@
+// prisma/schema.prisma
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Generate the Prisma Client in JavaScript
+generator client {
+  provider = "prisma-client-js"
+}
+
+// This block of code defines the database connection. The database is a PostgreSQL database. 
+// The database connection URL will be read from an environment variable named `DATABASE_URL`.
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// This block of code defines a User model
+model User {
+  id              String    @id @default(cuid()) // primary key with CUID
+  name            String    @db.VarChar(255) // varchar
+  email           String    @unique @db.VarChar(255) // email must be unique
+  emailVerifiedAt DateTime? // optional DateTime
+  emailVerifToken String?   @db.VarChar(255)
+  password        String    @db.VarChar(255)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
